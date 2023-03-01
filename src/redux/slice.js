@@ -9,19 +9,12 @@ const Slice = createSlice({
   initialState: initState,
   reducers: {
     addTodo: (state, { payload }) => {
-      state.data = [...state.data, payload];
-    },
-    deleteTodo: (state, { payload }) => {
-      state.data = state.data.filter(todo => todo.id !== payload);
+      state.data = [...state.data, { id: state.data.length, ...payload }];
     },
     toogleTodoStatus: (state, { payload }) => {
-      state.data = state.data.map(todo => {
-        if (todo.id === payload) {
-          return { ...todo, status: !todo.status };
-        } else {
-          return state.data;
-        }
-      });
+      state.data = state.data.map(todo =>
+        todo.id === payload ? { ...todo, status: !todo.status } : todo
+      );
     },
   },
 });

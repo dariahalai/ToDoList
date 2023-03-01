@@ -1,20 +1,42 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { nanoid } from 'nanoid';
 import { addTodo } from 'redux/slice';
+
 const TodosForm = () => {
-  const [form, setForm] = useState({});
+  const [form, setForm] = useState({ title: '', descr: '' });
+  const [dirtyForm, setDirtyForm] = useState({ title: false, descr: false });
+  const [errorForm, setErrorForm] = useState({
+    title: 'Title can`t be empty',
+    descr: 'Description can`t be empty',
+  });
+  const [formValid, setFormValid] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    const { title, descr } = errorForm;
+    if (title || descr) {
+      setFormValid(false);
+    } else {
+      setFormValid(true);
+    }
+  }, [errorForm]);
 
   const handleChange = ({ target: { name, value } }) => {
     setForm(prev => ({ ...prev, [name]: value }));
+    if (form.title) {
+      setErrorForm(prev => ({ ...prev, title: '' }));
+    }
+    if (form.descr) {
+      setErrorForm(prev => ({ ...prev, descr: '' }));
+    }
   };
-
+  const handleBlur = ({ target: { name } }) => {
+    setDirtyForm(prev => ({ ...prev, [name]: true }));
+  };
   const handleSubmit = e => {
     e.preventDefault();
     const { title, descr } = form;
     const addNewTodo = {
-      id: nanoid(),
       ...form,
       status: false,
     };
@@ -29,13 +51,27 @@ const TodosForm = () => {
     <form onSubmit={handleSubmit} autoComplete="false">
       <label>
         Title
-        <input type="text" name="title" onChange={handleChange} />
+        {dirtyForm.title && errorForm.title && <div>{errorForm.title}</div>}
+        <input
+          value={form.title}
+          type="text"
+          name="title"
+          onBlur={handleBlur}
+          onChange={handleChange}
+        />
       </label>
       <label>
         Description
-        <input type="text" name="descr" onChange={handleChange} />
+        {dirtyForm.descr && errorForm.descr && <div>{errorForm.descr}</div>}
+        <input
+          value={form.descr}
+          type="text"
+          name="descr"
+          onBlur={handleBlur}
+          onChange={handleChange}
+        />
       </label>
-      <button>Create</button>
+      <button disabled={!formValid}>Create</button>
     </form>
   );
 };
