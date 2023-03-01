@@ -20,7 +20,7 @@ const Modal = ({ closeModal, children }) => {
     <ModalBackdrop onClick={handleBackdropClick}>
       <ModalWindow>
         {children}
-        <button onClick={closeModal}>Close</button>
+        <Button onClick={closeModal}>Close</Button>
       </ModalWindow>
     </ModalBackdrop>,
     modalRoot
@@ -45,7 +45,20 @@ const ModalWindow = styled.div`
   background-color: #fefefe;
   margin: auto;
   padding: 20px;
-  width: 30%;
+  min-width: 200px;
+  min-height: 80px;
   box-shadow: 1px 3px 5px rgba(0, 0, 0, 0.5);
   z-index: 15;
+`;
+const Button = styled.button`
+  align-items: center;
+  width: 70px;
+  height: 30px;
+  color: white;
+  font-weight: 500;
+  font-size: 16px;
+  border-radius: 8px;
+  margin-top: 10px;
+  background-color: #003d98;
+  cursor: pointer;
 `;

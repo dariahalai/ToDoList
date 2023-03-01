@@ -1,18 +1,19 @@
-import TodoListItem from './TodoListItem';
+import TodoListItem from 'components/TodoListItem';
 import { useSelector } from 'react-redux';
 import { selectTodos } from 'redux/selectors';
+import { Table, TableHead, TableField } from './TodosList.styled';
 
 const TodoList = () => {
   const data = useSelector(selectTodos);
   return (
-    <table>
+    <Table>
       <thead>
-        <tr>
-          <th>ID</th>
-          <th>TITLE</th>
-          <th>DESCRIPTION</th>
-          <th>STATUS</th>
-        </tr>
+        <TableHead>
+          <TableField>ID</TableField>
+          <TableField>TITLE</TableField>
+          <TableField>DESCRIPTION</TableField>
+          <TableField>STATUS</TableField>
+        </TableHead>
       </thead>
       <tbody>
         {data?.map(({ id, title, descr, status }) => (
@@ -25,7 +26,7 @@ const TodoList = () => {
           />
         ))}
       </tbody>
-    </table>
+    </Table>
   );
 };
 export default TodoList;

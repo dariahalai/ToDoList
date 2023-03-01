@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { addTodo } from 'redux/slice';
+import { Form, Label, Input, Button } from './TodosForm.styled';
 
 const TodosForm = () => {
   const [form, setForm] = useState({ title: '', descr: '' });
@@ -35,44 +36,53 @@ const TodosForm = () => {
   };
   const handleSubmit = e => {
     e.preventDefault();
-    const { title, descr } = form;
     const addNewTodo = {
       ...form,
       status: false,
     };
-    if (!title || !descr) {
-      console.log('no no no');
-    } else {
-      dispatch(addTodo(addNewTodo));
-    }
+    dispatch(addTodo(addNewTodo));
+    setForm({ title: '', descr: '' });
   };
 
   return (
-    <form onSubmit={handleSubmit} autoComplete="false">
-      <label>
+    <Form onSubmit={handleSubmit} autoComplete="false">
+      <Label>
         Title
-        {dirtyForm.title && errorForm.title && <div>{errorForm.title}</div>}
-        <input
+        {dirtyForm.title && errorForm.title && (
+          <div style={{ color: 'red', fontSize: '12px' }}>
+            {errorForm.title}
+          </div>
+        )}
+        <Input
           value={form.title}
           type="text"
           name="title"
           onBlur={handleBlur}
           onChange={handleChange}
         />
-      </label>
-      <label>
+      </Label>
+      <Label>
         Description
-        {dirtyForm.descr && errorForm.descr && <div>{errorForm.descr}</div>}
-        <input
+        {dirtyForm.descr && errorForm.descr && (
+          <div style={{ color: 'red', fontSize: '12px' }}>
+            {errorForm.descr}
+          </div>
+        )}
+        <Input
           value={form.descr}
           type="text"
           name="descr"
           onBlur={handleBlur}
           onChange={handleChange}
         />
-      </label>
-      <button disabled={!formValid}>Create</button>
-    </form>
+      </Label>
+      <Button
+        disabled={!formValid}
+        style={{ cursor: !formValid ? 'not-allowed' : 'pointer' }}
+      >
+        Create
+      </Button>
+    </Form>
   );
 };
 

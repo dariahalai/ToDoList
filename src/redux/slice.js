@@ -9,7 +9,7 @@ const Slice = createSlice({
   initialState: initState,
   reducers: {
     addTodo: (state, { payload }) => {
-      state.data = [...state.data, { id: state.data.length, ...payload }];
+      state.data = [...state.data, { id: state.data.length + 1, ...payload }];
     },
     toogleTodoStatus: (state, { payload }) => {
       state.data = state.data.map(todo =>
